@@ -57,25 +57,12 @@ Create a **public** directory and add some files to it. Feel free to use documen
 nodejs-apm-logging
   |- index.js
   |- public
-    |- 
+    |- file1.text
+    |- file2.pdf
 ```
-
-// Add this to the VERY top of the first file loaded in your app
-const apm = require('elastic-apm-node').start({
-    // Override service name from package.json
-    // Allowed characters: a-z, A-Z, 0-9, -, _, and space
-    serviceName: 'ams_demo_filerepo',
-  
-    // Use if APM Server requires a token
-    secretToken: '',
-  
-    // Use if APM Server uses API keys for authentication
-    apiKey: 'MWJZclFZTUJvWDhTalo0TGM5czc6R1AwUGtCM1JTRGFFZXVlbVlDUUFjdw==',
-  
-    // Set custom APM Server URL (default: http://localhost:8200)
-    serverUrl: 'https://unicc-k8-test.apm.us-east-2.aws.elastic-cloud.com',
-  })
-
+### Create Express Server
+From the **index.js** file, add the following code:
+```
 const express = require('express');
 const app = express();
 const PORT = 3000;
@@ -87,3 +74,17 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
+```
+The **express.static** is middleware that serves up static files from the **public** directory.  
+
+### Give the Express Project a Whirl
+In your terminal, run the following to launch the project:
+```
+npm start
+```
+After it starts, open a web browser and navigate to http://localhost:3000/file.txt and you'll see a file displayed. Or if you're following this code repository, navigate to http://localhost:3000/filerepo/1965/ams_1965_00135.pdf.
+
+## Moving On - Let's Do Some APM
+:tada: Good work so far, we have an application running, now we need to monitor it as it gets hammered by our thousands of hungry users.
+
+Continue to [Adding APM](configuring-apm.md).
